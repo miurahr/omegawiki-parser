@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'distribution'
 }
 
 group 'tokyo.northside'
@@ -16,3 +17,20 @@ dependencies {
     testImplementation 'org.testng:testng:6.9.10'
 }
 test.useTestNG()
+
+distTar {
+    compression = Compression.GZIP
+}
+
+artifacts {
+    archives jar
+}
+
+distributions {
+    main {
+        contents {
+            from(jar)
+            from('README.md', 'LICENSE')
+        }
+    }
+}
