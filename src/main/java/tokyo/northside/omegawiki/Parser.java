@@ -25,19 +25,26 @@ public class Parser {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(json);
         node = node.get("ow_express");
-        JsonNode expression = node.get("expression");
-        word = expression.asText();
-        node.fields().forEachRemaining(entry -> {
-            if (entry.getKey().startsWith("ow_define_")) {
-                JsonNode definition = entry.getValue();
-                ObjectMapper om = new ObjectMapper();
-                try {
-                    OmegawikiDefinition od = om.readValue(definition.traverse(), OmegawikiDefinition.class);
-                    definitions.add(od);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        if (node != null) {
+            JsonNode expression = node.get("expression");
+            if (expression == null) {
+                return;
             }
-        });
+            word = expression.asText();
+            node.fields().forEachRemaining(entry -> {
+                if (entry.getKey().startsWith("ow_define_")) {
+                    JsonNode definition = entry.getValue();
+                    ObjectMapper om = new ObjectMapper();
+                    try {
+                        OmegawikiDefinition od = om.readValue(definition.traverse(), OmegawikiDefinition.class);
+                        definitions.add(od);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            return;
+        }
     }
 }
