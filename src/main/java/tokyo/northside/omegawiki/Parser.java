@@ -37,7 +37,9 @@ public class Parser {
                     ObjectMapper om = new ObjectMapper();
                     try {
                         OmegawikiDefinition od = om.readValue(definition.traverse(), OmegawikiDefinition.class);
-                        definitions.add(od);
+                        if (od != null) {
+                            definitions.add(od);
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
