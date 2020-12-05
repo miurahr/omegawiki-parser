@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parser {
+public class ExpressionParser {
 
     private String word;
     private List<OmegawikiDefinition> definitions = new ArrayList<>();
